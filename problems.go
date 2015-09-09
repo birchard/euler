@@ -2,6 +2,115 @@ package euler
 
 import "math"
 
+// Problem 7
+// 10001st prime
+// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, 
+// we can see that the 6th prime is 13.
+//
+// What is the 10 001st prime number?
+ 
+// Problem 6
+// Sum square difference
+// The sum of the squares of the first ten natural numbers is,
+// 1^2 + 2^2 + ... + 10^2 = 385
+// The square of the sum of the first ten natural numbers is,
+// (1 + 2 + ... + 10)^2 = 55^2 = 3025
+// Hence the difference between the sum of the squares of the first ten
+// natural numbers and the square of the sum is 3025 − 385 = 2640.
+//
+// Find the difference between the sum of the squares of the first
+// one hundred natural numbers and the square of the sum.
+func Problem006(n int) int {
+
+	squares := (n*(n+1)*(2*n+1))/6
+	sums := (n*(n+1))/2
+	sums *= sums
+
+	return sums - squares
+}
+
+// Problem 5
+// Smallest multiple
+// 2520 is the smallest number that can be divided by each of the numbers 
+// from 1 to 10 without any remainder.
+//
+// What is the smallest positive number that is evenly divisible 
+// by all of the numbers from 1 to 20?
+func Problem005(n int) int {
+	
+	primes := sieveOfEratosthenes(n)
+	powers := make([]int, n)
+
+	// find all prime factors of 2 through n
+	// 2=2^1, 3=3^1, 4=2^2, 5=5^1, 6=2^1x3^1, 7=7^1, 8=2^3, 9=3^2, 10=2^1*5^1
+	for i := 1; i <= n; i++ {
+		val := i
+		for _, p := range primes {
+			pow := 0
+			for val % p == 0 {
+				val /= p
+				pow += 1
+			}
+			if pow > powers[p]{
+				powers[p] = pow
+			}
+		}
+	}
+
+	// multiply factors with greatest exponent
+	// 2^3*3^2*5^1*7^1 = 2520
+	product := 1
+	for base, exponent := range powers {
+		product *= int(math.Pow(float64(base), float64(exponent)))
+	}
+
+	return product
+}
+
+// Problem 4
+// Largest palindrome product
+// A palindromic number reads the same both ways.
+// The largest palindrome made from the product of two 2-digit numbers
+// is 9009 = 91 × 99.
+//
+// Find the largest palindrome made from the product of two 3-digit numbers.
+func Problem004(n int) int {
+    max := 0
+    a := n
+    limit := (n+1) / 10
+    for a >= limit {
+        b := n
+        for b >= a {
+            if a*b <= max {
+                break
+            }
+
+            if isPalindrome(a * b) {
+                max = a * b
+            }
+
+            b--
+        }
+        a--
+    }
+	return max
+}
+
+func isPalindrome(n int) bool {
+	if reverse(n) == n {
+		return true
+	}
+	return false
+}
+
+func reverse(val int) int {
+	reversed := 0
+	for val > 0 {
+		reversed = 10*reversed + val%10
+		val = val / 10
+	}
+	return reversed
+}
 
 // Problem 3
 // Largest prime factor
@@ -14,8 +123,8 @@ func Problem003(n int) int {
 	factor := 1
 	primes := sieveOfEratosthenes(int(math.Sqrt(float64(n))))
 
-	for _,x := range primes {
-		if n % x == 0 {
+	for _, x := range primes {
+		if n%x == 0 {
 			factor = x
 		}
 	}
@@ -23,39 +132,39 @@ func Problem003(n int) int {
 	return factor
 }
 
-func sieveOfEratosthenes(N int) ([]int) {
-    // sieve
-    c := make([]bool, N) // c for composite.  false means prime candidate
-    c[1] = true              // 1 not considered prime
-    p := 2
-    for {
-        // first allowed optimization:  outer loop only goes to sqrt(limit)
-        p2 := p * p
-        if p2 >= N {
-            break
-        }
-        // second allowed optimization:  inner loop starts at sqr(p)
-        for i := p2; i < N; i += p {
-            c[i] = true // it's a composite
- 
-        }
-        // scan to get next prime for outer loop
-        for {
-            p++
-            if !c[p] {
-                break
-            }
-        }
-    }
- 
-    // sieve complete.  now save off primes.
-    v := make([]int,0)
-    for n := 1; n < N; n++ {
-        if c[n] == false {
-            v = append(v, n)
-        }
-    }
-    
+func sieveOfEratosthenes(N int) []int {
+	// sieve
+	c := make([]bool, N) // c for composite.  false means prime candidate
+	c[1] = true          // 1 not considered prime
+	p := 2
+	for {
+		// first allowed optimization:  outer loop only goes to sqrt(limit)
+		p2 := p * p
+		if p2 >= N {
+			break
+		}
+		// second allowed optimization:  inner loop starts at sqr(p)
+		for i := p2; i < N; i += p {
+			c[i] = true // it's a composite
+
+		}
+		// scan to get next prime for outer loop
+		for {
+			p++
+			if !c[p] {
+				break
+			}
+		}
+	}
+
+	// sieve complete.  now save off primes.
+	v := make([]int, 0)
+	for n := 1; n < N; n++ {
+		if c[n] == false {
+			v = append(v, n)
+		}
+	}
+
 	return v
 }
 

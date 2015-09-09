@@ -5,6 +5,51 @@ import (
 	"testing"
 )
 
+func TestProblem006(t *testing.T) {
+
+	Convey("Sum square difference", t, func() {
+		f_x := Problem006(10)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 2640)
+	})
+
+	Convey("Sum square difference", t, func() {
+		f_x := Problem006(100)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 25164150)
+	})
+}
+
+func TestProblem005(t *testing.T) {
+
+	Convey("Smallest multiple", t, func() {
+		f_x := Problem005(10)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 2520)
+	})
+
+	Convey("Smallest multiple", t, func() {
+		f_x := Problem005(20)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 232792560)
+	})
+}
+
+func TestProblem004(t *testing.T) {
+
+	Convey("The largest palindrome made from the product of two 2-digit numbers", t, func() {
+		f_x := Problem004(99)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 9009)
+	})
+
+	Convey("The largest palindrome made from the product of two 3-digit numbers", t, func() {
+		f_x := Problem004(999)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 906609)
+	})
+}
+
 func TestProblem003(t *testing.T) {
 
 	Convey("The largest prime factor of 13195", t, func() {
