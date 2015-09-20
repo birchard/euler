@@ -204,7 +204,9 @@ func Problem001(count int) int {
 
 	count -= 1
 
-	return sumDivisibleBy(count, 3) + sumDivisibleBy(count, 5) - sumDivisibleBy(count, 15)
+	return sumDivisibleBy(count, 3) 
+	     + sumDivisibleBy(count, 5) 
+	     - sumDivisibleBy(count, 15)
 }
 
 func sumDivisibleBy(count, n int) int {
