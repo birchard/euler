@@ -1,9 +1,67 @@
 package euler
 
 import (
-	. "github.com/smartystreets/goconvey/convey"
 	"testing"
+
+	. "github.com/smartystreets/goconvey/convey"
 )
+
+func TestProblem009(t *testing.T) {
+
+	Convey("Special Pythagorean triplet 3,4,5", t, func() {
+		f_x := Problem009(12)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 60)
+	})
+
+	Convey("Special Pythagorean triplet", t, func() {
+		f_x := Problem009(1000)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 23514624000)
+	})
+}
+
+func TestRelativelyPrime(t *testing.T) {
+	Convey("test Relatively Prime", t, func() {
+		Convey("3 and 5 are Realtively Prime", func() {
+			So(RelativelyPrime(3, 5), ShouldBeTrue)
+		})
+
+		Convey("2 and 4 are NOT Realtively Prime", func() {
+			So(RelativelyPrime(2, 4), ShouldBeFalse)
+		})
+	})
+}
+
+func TestProblem008(t *testing.T) {
+
+	Convey("Largest product in a series of 4", t, func() {
+		f_x := Problem008(4)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 5832)
+	})
+
+	Convey("Largest product in a series of 13", t, func() {
+		f_x := Problem008(13)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 23514624000)
+	})
+}
+
+func TestProblem007(t *testing.T) {
+
+	Convey("6th Prime", t, func() {
+		f_x := Problem007(6)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 13)
+	})
+
+	Convey("10 001st prime", t, func() {
+		f_x := Problem007(10001)
+		So(f_x, ShouldNotEqual, 0)
+		So(f_x, ShouldEqual, 104743)
+	})
+}
 
 func TestProblem006(t *testing.T) {
 

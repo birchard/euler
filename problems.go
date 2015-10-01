@@ -1,14 +1,121 @@
 package euler
 
-import "math"
+import (
+	"io/ioutil"
+	"math"
+)
+
+// Problem 9
+// Special Pythagorean triplet
+// A Pythagorean triplet is a set of three natural numbers,
+// a < b < c, for which, a^2 + b^2 = c^2
+// For example, 3^2 + 4^2 = 9 + 16 = 25 = 5^2.
+//
+// There exists exactly one Pythagorean triplet for which a + b + c = 1000.
+// Find the product abc.
+
+func Problem009(n int) int {
+
+	for b := 1; b < n/2; b++ {
+		a := (float64(n*n)/2 - float64(n*b)) / float64(n-b)
+
+		if int(a)%1 == 0 {
+			return int(a) * b * (n - int(a) - b)
+		}
+	}
+
+	return 0
+}
+
+func RelativelyPrime(a, b int) bool {
+
+	for {
+		if a %= b != 0 {
+			return b ==1
+		}
+		if b %= a != 0 {
+			return a == 1
+		}
+	}
+}
+
+// Problem 8
+// Largest product in a series
+// The four adjacent digits in the 1000-digit number
+// that have the greatest product are 9 × 9 × 8 × 9 = 5832.
+//
+// Find the thirteen adjacent digits in the 1000-digit number
+// that have the greatest product. What is the value of this product?
+
+func Problem008(n int) int {
+
+	// Read The 1000-digit number from disk
+	digits := getSlice("1000.digit.number.txt")
+	prod := 0
+
+	for i := 0; i < 1000-n; i++ {
+		tmp := 1
+		for k := i; k < i+n; k++ {
+			tmp *= digits[k]
+		}
+		if tmp > prod {
+			prod = tmp
+		}
+	}
+
+	return prod
+}
+
+func getSlice(file string) []int {
+	var slice []int
+
+	dat, err := ioutil.ReadFile(file)
+	if err != nil {
+		return slice
+	}
+
+	input := string(dat)
+
+	for _, a := range input {
+		i := int(a - '0')
+		if -1 < i && i < 10 {
+			slice = append(slice, i)
+		}
+	}
+	return slice
+}
 
 // Problem 7
 // 10001st prime
-// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, 
+// By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13,
 // we can see that the 6th prime is 13.
 //
-// What is the 10 001st prime number?
- 
+// What is the 10001st prime number?
+func Problem007(n int) int {
+
+	x := 3
+	p := 0
+	count := 1
+	for count < n {
+		if isPrime(x) {
+			count++
+			p = x
+		}
+		x++
+	}
+
+	return int(p)
+}
+
+func isPrime(n int) bool {
+	for i := 2; float64(i) <= math.Sqrt(float64(n)); i++ {
+		if n%i == 0 {
+			return false
+		}
+	}
+	return true
+}
+
 // Problem 6
 // Sum square difference
 // The sum of the squares of the first ten natural numbers is,
@@ -22,8 +129,8 @@ import "math"
 // one hundred natural numbers and the square of the sum.
 func Problem006(n int) int {
 
-	squares := (n*(n+1)*(2*n+1))/6
-	sums := (n*(n+1))/2
+	squares := (n * (n + 1) * (2*n + 1)) / 6
+	sums := (n * (n + 1)) / 2
 	sums *= sums
 
 	return sums - squares
@@ -31,13 +138,13 @@ func Problem006(n int) int {
 
 // Problem 5
 // Smallest multiple
-// 2520 is the smallest number that can be divided by each of the numbers 
+// 2520 is the smallest number that can be divided by each of the numbers
 // from 1 to 10 without any remainder.
 //
-// What is the smallest positive number that is evenly divisible 
+// What is the smallest positive number that is evenly divisible
 // by all of the numbers from 1 to 20?
 func Problem005(n int) int {
-	
+
 	primes := sieveOfEratosthenes(n)
 	powers := make([]int, n)
 
@@ -47,11 +154,11 @@ func Problem005(n int) int {
 		val := i
 		for _, p := range primes {
 			pow := 0
-			for val % p == 0 {
+			for val%p == 0 {
 				val /= p
 				pow += 1
 			}
-			if pow > powers[p]{
+			if pow > powers[p] {
 				powers[p] = pow
 			}
 		}
@@ -75,24 +182,24 @@ func Problem005(n int) int {
 //
 // Find the largest palindrome made from the product of two 3-digit numbers.
 func Problem004(n int) int {
-    max := 0
-    a := n
-    limit := (n+1) / 10
-    for a >= limit {
-        b := n
-        for b >= a {
-            if a*b <= max {
-                break
-            }
+	max := 0
+	a := n
+	limit := (n + 1) / 10
+	for a >= limit {
+		b := n
+		for b >= a {
+			if a*b <= max {
+				break
+			}
 
-            if isPalindrome(a * b) {
-                max = a * b
-            }
+			if isPalindrome(a * b) {
+				max = a * b
+			}
 
-            b--
-        }
-        a--
-    }
+			b--
+		}
+		a--
+	}
 	return max
 }
 
@@ -204,9 +311,9 @@ func Problem001(count int) int {
 
 	count -= 1
 
-	return sumDivisibleBy(count, 3) 
-	     + sumDivisibleBy(count, 5) 
-	     - sumDivisibleBy(count, 15)
+	return sumDivisibleBy(count, 3) +
+		sumDivisibleBy(count, 5) -
+		sumDivisibleBy(count, 15)
 }
 
 func sumDivisibleBy(count, n int) int {
