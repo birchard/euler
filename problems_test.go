@@ -21,18 +21,6 @@ func TestProblem009(t *testing.T) {
 	})
 }
 
-func TestRelativelyPrime(t *testing.T) {
-	Convey("test Relatively Prime", t, func() {
-		Convey("3 and 5 are Realtively Prime", func() {
-			So(RelativelyPrime(3, 5), ShouldBeTrue)
-		})
-
-		Convey("2 and 4 are NOT Realtively Prime", func() {
-			So(RelativelyPrime(2, 4), ShouldBeFalse)
-		})
-	})
-}
-
 func TestProblem008(t *testing.T) {
 
 	Convey("Largest product in a series of 4", t, func() {

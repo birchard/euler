@@ -1,9 +1,6 @@
 package euler
 
-import (
-	"io/ioutil"
-	"math"
-)
+import "math"
 
 // Problem 9
 // Special Pythagorean triplet
@@ -25,18 +22,6 @@ func Problem009(n int) int {
 	}
 
 	return 0
-}
-
-func RelativelyPrime(a, b int) bool {
-
-	for {
-		if a %= b != 0 {
-			return b ==1
-		}
-		if b %= a != 0 {
-			return a == 1
-		}
-	}
 }
 
 // Problem 8
@@ -66,25 +51,6 @@ func Problem008(n int) int {
 	return prod
 }
 
-func getSlice(file string) []int {
-	var slice []int
-
-	dat, err := ioutil.ReadFile(file)
-	if err != nil {
-		return slice
-	}
-
-	input := string(dat)
-
-	for _, a := range input {
-		i := int(a - '0')
-		if -1 < i && i < 10 {
-			slice = append(slice, i)
-		}
-	}
-	return slice
-}
-
 // Problem 7
 // 10001st prime
 // By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13,
@@ -105,15 +71,6 @@ func Problem007(n int) int {
 	}
 
 	return int(p)
-}
-
-func isPrime(n int) bool {
-	for i := 2; float64(i) <= math.Sqrt(float64(n)); i++ {
-		if n%i == 0 {
-			return false
-		}
-	}
-	return true
 }
 
 // Problem 6
@@ -203,22 +160,6 @@ func Problem004(n int) int {
 	return max
 }
 
-func isPalindrome(n int) bool {
-	if reverse(n) == n {
-		return true
-	}
-	return false
-}
-
-func reverse(val int) int {
-	reversed := 0
-	for val > 0 {
-		reversed = 10*reversed + val%10
-		val = val / 10
-	}
-	return reversed
-}
-
 // Problem 3
 // Largest prime factor
 // The prime factors of 13195 are 5, 7, 13 and 29.
@@ -239,41 +180,6 @@ func Problem003(n int) int {
 	return factor
 }
 
-func sieveOfEratosthenes(N int) []int {
-	// sieve
-	c := make([]bool, N) // c for composite.  false means prime candidate
-	c[1] = true          // 1 not considered prime
-	p := 2
-	for {
-		// first allowed optimization:  outer loop only goes to sqrt(limit)
-		p2 := p * p
-		if p2 >= N {
-			break
-		}
-		// second allowed optimization:  inner loop starts at sqr(p)
-		for i := p2; i < N; i += p {
-			c[i] = true // it's a composite
-
-		}
-		// scan to get next prime for outer loop
-		for {
-			p++
-			if !c[p] {
-				break
-			}
-		}
-	}
-
-	// sieve complete.  now save off primes.
-	v := make([]int, 0)
-	for n := 1; n < N; n++ {
-		if c[n] == false {
-			v = append(v, n)
-		}
-	}
-
-	return v
-}
 
 // Problem 2
 // Even Fibonacci numbers
@@ -297,10 +203,6 @@ func Problem002() int {
 	return sum
 }
 
-func nextPair(x, y int) (int, int) {
-	return x + 2*y, 2*x + 3*y
-}
-
 // Problem 1
 // If we list all the natural numbers below 10 that are multiples of 3 or 5,
 // we get 3, 5, 6 and 9. The sum of these multiples is 23.
@@ -314,9 +216,4 @@ func Problem001(count int) int {
 	return sumDivisibleBy(count, 3) +
 		sumDivisibleBy(count, 5) -
 		sumDivisibleBy(count, 15)
-}
-
-func sumDivisibleBy(count, n int) int {
-	p := count / n
-	return n * (p * (p + 1)) / 2
 }
